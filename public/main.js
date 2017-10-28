@@ -29,10 +29,10 @@ const Menu = {
   view: function(vnode) {
     return m('div', { class: 'menu' }, vnode.attrs.houses.map(house => {
       const { name, score, colors } = house;
-      return m('div',
-        m('p', house.name),
-        m('button', { onclick: () => changePoints(name, 1) }, 'Give Point'),
-        m('button', { onclick: () => changePoints(name, -1) }, 'Take Point'),
+      return m('div', { class: 'group' },
+        m('p', { style: `color: ${colors[0]}` }, `${name}: ${score}`),
+        m('button', { class: 'give-point', onclick: () => changePoints(name, 1) }, 'Give Point'),
+        m('button', { class: 'take-point', onclick: () => changePoints(name, -1) }, 'Take Point'),
       );
     }));
   },
@@ -44,7 +44,7 @@ const App = {
     if (location.hash === '#menu') {
       return m(Menu, { houses });
     } else {
-      return m('div', {},
+      return m('div', { class: 'tv' },
         m('div', { class: 'houses' }, houses.map(house => m(House, { house }))),
       );
     }

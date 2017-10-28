@@ -1,5 +1,8 @@
 body {
   margin: 0;
+}
+
+.tv {
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -30,7 +33,37 @@ body {
   transition: height 1s;
 }
 
+.menu {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #666;
+  font-size: 1rem;
+  font-weight: bold;
+  font-family: sans-serif;
+}
+
+.menu .group {
+  margin: 1rem auto;
+}
+
+.menu p {
+  text-shadow: 1px 0px 1px black;
+}
+
 button {
-  background-color: white;
+  color: white;
+  background-color: black;
   border-radius: 4px;
+  font-size: 1.25rem;
+}
+
+button.give-point {
+  background-color: darkgreen;
+}
+
+button.take-point {
+  background-color: darkred;
 }
