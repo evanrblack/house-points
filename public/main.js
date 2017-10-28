@@ -1,7 +1,6 @@
 let houses = [];
-let showMenu = false;
 
-const socket = new WebSocket('ws://localhost:8001');
+const socket = new WebSocket(`ws://${location.hostname}:8001`);
 socket.addEventListener('message', event => {
   houses = JSON.parse(event.data);
   m.redraw();
@@ -22,27 +21,33 @@ const House = {
       m('div', { class: 'bar', style: barStyle }),
       m('h1', name),
       m('h2', score),
-      m('button', { onclick: () => changePoints(name, -1) }, 'Take Point'),
-      m('button', { onclick: () => changePoints(name, 1) }, 'Give Point'),
     );
   },
 }
 
 const Menu = {
   view: function(vnode) {
-    return showMenu && m('div', { class: 'menu' }, vnode.attrs.houses.map(house => {
-      return m('p', house.name);
+    return m('div', { class: 'menu' }, vnode.attrs.houses.map(house => {
+      const { name, score, colors } = house;
+      return m('div',
+        m('p', house.name),
+        m('button', { onclick: () => changePoints(name, 1) }, 'Give Point'),
+        m('button', { onclick: () => changePoints(name, -1) }, 'Take Point'),
+      );
     }));
   },
 }
 
 const App = {
   view: function(vnode) {
-    return m('div', {},
-      m('button', { onclick: () => showMenu = !showMenu }, 'Toggle Menu'),
-      m(Menu, { houses: vnode.attrs.houses }),
-      m('div', { class: 'houses' }, vnode.attrs.houses.map(house => m(House, { house }))),
-    );
+    const { houses } = vnode.attrs;
+    if (location.hash === '#menu') {
+      return m(Menu, { houses });
+    } else {
+      return m('div', {},
+        m('div', { class: 'houses' }, houses.map(house => m(House, { house }))),
+      );
+    }
   },
 }
 
